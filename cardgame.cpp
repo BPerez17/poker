@@ -170,9 +170,9 @@ int main() {
         int winner = compareHands(user.getHand(), computer.getHand(), communitycards);
         cout << "Result:\n";
         if (winner == 1) {
-            cout << "Player 1 wins!" << endl;
+            cout << "You win with a " << evaluateTexasHoldEm(user.getHand(), communitycards) << endl;
         } else if (winner == 2) {
-            cout << "Player 2 wins!" << endl;
+            cout << "Computer wins with a " << evaluateTexasHoldEm(computer.getHand(), communitycards)  <<endl;
         } else {
             cout << "It's a tie!" << endl;
         }
