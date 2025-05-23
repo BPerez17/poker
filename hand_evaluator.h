@@ -6,8 +6,6 @@
 using namespace std;
 
 
-
-
 struct EvaluatedHand {
     string name;
     int rank;
@@ -18,11 +16,11 @@ struct EvaluatedHand {
 int getCardRank(const string& value);
 
 
-EvaluatedHand evaluateHandDetailed(const std::vector<Card>& hand);
+EvaluatedHand evaluateHandDetailed(const vector<Card>& hand);
 
 vector<vector<Card>> getCombinations(const vector<Card>& cards);
 
-EvaluatedHand evaluateTexasHoldEmDetailed(const std::vector<Card>& player, const std::vector<Card>& community);
+EvaluatedHand evaluateTexasHoldEmDetailed(const vector<Card>& player, const vector<Card>& community);
 
 int getHandRank(const string& handName);
 
