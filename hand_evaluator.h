@@ -7,11 +7,15 @@ using namespace std;
 
 int getCardRank(const string& value);
 
-string evaluateHand(const vector<Card>& hand);
+
+
+EvaluatedHand evaluateHandDetailed(const std::vector<Card>& hand);
+
+
 
 vector<vector<Card>> getCombinations(const vector<Card>& cards);
 
-string evaluateTexasHoldEm(const vector<Card>& playerCards, const vector<Card>& communityCards);
+EvaluatedHand evaluateTexasHoldEmDetailed(const std::vector<Card>& player, const std::vector<Card>& community);
 
 int getHandRank(const string& handName);
 

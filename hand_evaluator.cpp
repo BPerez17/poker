@@ -5,6 +5,24 @@
 #include <cmath>
 using namespace std;
 
+struct EvaluatedHand {
+    std::string name;          // e.g., "One Pair"
+    int rank;                  // 0 = High Card, 1 = One Pair, ..., 8 = Straight Flush
+    std::vector<int> tiebreakers;  // descending ranks for tie-breaking
+};
+
+enum HandRank {
+    HIGH_CARD = 0,
+    ONE_PAIR,
+    TWO_PAIR,
+    THREE_OF_A_KIND,
+    STRAIGHT,
+    FLUSH,
+    FULL_HOUSE,
+    FOUR_OF_A_KIND,
+    STRAIGHT_FLUSH
+};
+
 
 int getCardRank(const string& value) {
     if (value == "2") return 2;
@@ -23,12 +41,11 @@ int getCardRank(const string& value) {
     return -1; // Invalid
 }
 
-string evaluateHand(const vector<Card>& hand) {
-    if (hand.size() != 5) return "Invalid hand";
 
-    map<int, int> rankCount;
-    map<string, int> suitCount;
-    vector<int> ranks;
+EvaluatedHand evaluateHandDetailed(const std::vector<Card>& hand) {
+    std::map<int, int> rankCount;
+    std::map<std::string, int> suitCount;
+    std::vector<int> ranks;
 
     for (const auto& card : hand) {
         int rank = getCardRank(card.getValue());
@@ -37,55 +54,60 @@ string evaluateHand(const vector<Card>& hand) {
         suitCount[card.getSuit()]++;
     }
 
-    sort(ranks.begin(), ranks.end());
+    std::sort(ranks.begin(), ranks.end(), std::greater<int>()); // high to low
 
-    // Check for flush
     bool isFlush = false;
-    for (const auto& s : suitCount) {
+    for (auto& s : suitCount) {
         if (s.second == 5) {
             isFlush = true;
             break;
         }
     }
 
-    // Check for straight
     bool isStraight = true;
     for (int i = 0; i < 4; ++i) {
-        if (ranks[i+1] != ranks[i] + 1) {
+        if (ranks[i] - 1 != ranks[i+1]) {
             isStraight = false;
             break;
         }
     }
 
     // Special case: A-2-3-4-5
-    if (!isStraight && ranks == vector<int>{2, 3, 4, 5, 14}) {
+    if (!isStraight && std::set<int>(ranks.begin(), ranks.end()) == std::set<int>{14, 2, 3, 4, 5}) {
         isStraight = true;
+        ranks = {5, 4, 3, 2, 1};
     }
 
-    if (isStraight && isFlush) return "Straight Flush";
+    std::vector<int> tiebreakers;
 
-    // Count occurrences
-    set<int> counts;
-    for (const auto& pair : rankCount) {
-        counts.insert(pair.second);
-    }
+    if (isStraight && isFlush)
+        return {"Straight Flush", 8, {ranks[0]}};
 
-    if (counts.count(4)) return "Four of a Kind";
-    if (counts.count(3) && counts.count(2)) return "Full House";
-    if (isFlush) return "Flush";
-    if (isStraight) return "Straight";
-    if (counts.count(3)) return "Three of a Kind";
+    // Collect groups by frequency
+    std::vector<std::pair<int, int>> groups;
+    for (auto& [rank, count] : rankCount)
+        groups.push_back({count, rank});  // {freq, rank}
+
+    std::sort(groups.rbegin(), groups.rend());  // highest freq first
+
+    if (groups[0].first == 4)
+        return {"Four of a Kind", 7, {groups[0].second, groups[1].second}};
+    if (groups[0].first == 3 && groups[1].first == 2)
+        return {"Full House", 6, {groups[0].second, groups[1].second}};
+    if (isFlush)
+        return {"Flush", 5, ranks};
+    if (isStraight)
+        return {"Straight", 4, {ranks[0]}};
+    if (groups[0].first == 3)
+        return {"Three of a Kind", 3, {groups[0].second, groups[1].second, groups[2].second}};
+    if (groups[0].first == 2 && groups[1].first == 2)
+        return {"Two Pair", 2, {std::max(groups[0].second, groups[1].second), std::min(groups[0].second, groups[1].second), groups[2].second}};
+    if (groups[0].first == 2)
+        return {"One Pair", 1, {groups[0].second, groups[1].second, groups[2].second, groups[3].second}};
     
-    int pairCount = 0;
-    for (const auto& pair : rankCount) {
-        if (pair.second == 2) pairCount++;
-    }
-
-    if (pairCount == 2) return "Two Pair";
-    if (pairCount == 1) return "One Pair";
-
-    return "High Card";
+    return {"High Card", 0, ranks};
 }
+
 
 vector<vector<Card>> getCombinations(const vector<Card>& cards) {
     vector<vector<Card>> combinations;
@@ -103,48 +125,28 @@ vector<vector<Card>> getCombinations(const vector<Card>& cards) {
     return combinations;
 }
 
-string evaluateTexasHoldEm(const vector<Card>& playerCards, const vector<Card>& communityCards) {
-    if (playerCards.size() != 2 || communityCards.size() != 5) {
-        return "Invalid input: must provide 2 hole cards and 5 community cards";
-    }
 
-    vector<Card> allCards = playerCards;
-    allCards.insert(allCards.end(), communityCards.begin(), communityCards.end());
+EvaluatedHand evaluateTexasHoldEmDetailed(const std::vector<Card>& player, const std::vector<Card>& community) {
+    std::vector<Card> all = player;
+    all.insert(all.end(), community.begin(), community.end());
 
-    vector<vector<Card>> combos = getCombinations(allCards);
+    std::vector<std::vector<Card>> combos = getCombinations(all);
 
-    string bestHand = "High Card";
-    vector<string> handRanking = {
-        "High Card", "One Pair", "Two Pair", "Three of a Kind", "Straight",
-        "Flush", "Full House", "Four of a Kind", "Straight Flush"
-    };
-
-    map<string, int> handRankIndex;
-    for (size_t i = 0; i < handRanking.size(); ++i) {
-        handRankIndex[handRanking[i]] = i;
-    }
+    EvaluatedHand best = evaluateHandDetailed(combos[0]);
 
     for (const auto& combo : combos) {
-        string hand = evaluateHand(combo);
-        if (handRankIndex[hand] > handRankIndex[bestHand]) {
-            bestHand = hand;
+        EvaluatedHand current = evaluateHandDetailed(combo);
+
+        if (current.rank > best.rank ||
+            (current.rank == best.rank && current.tiebreakers > best.tiebreakers)) {
+            best = current;
         }
     }
 
-    return bestHand;
+    return best;
 }
 
-enum HandRank {
-    HIGH_CARD = 0,
-    ONE_PAIR,
-    TWO_PAIR,
-    THREE_OF_A_KIND,
-    STRAIGHT,
-    FLUSH,
-    FULL_HOUSE,
-    FOUR_OF_A_KIND,
-    STRAIGHT_FLUSH
-};
+
 
 int getHandRank(const string& handName) {
     if (handName == "High Card") return 0;
@@ -159,16 +161,17 @@ int getHandRank(const string& handName) {
     return -1; // Unknown hand
 }
 
-int compareHands(const vector<Card>& p1Hand, const vector<Card>& p2Hand, const vector<Card>& community) {
-    string best1 = evaluateTexasHoldEm(p1Hand, community);
-    string best2 = evaluateTexasHoldEm(p2Hand, community);
+int compareHands(const std::vector<Card>& p1, const std::vector<Card>& p2, const std::vector<Card>& community) {
+    EvaluatedHand h1 = evaluateTexasHoldEmDetailed(p1, community);
+    EvaluatedHand h2 = evaluateTexasHoldEmDetailed(p2, community);
 
-    int rank1 = getHandRank(best1);
-    int rank2 = getHandRank(best2);
 
-    if (rank1 > rank2) return 1;
-    if (rank2 > rank1) return 2;
+    if (h1.rank > h2.rank) return 1;
+    if (h2.rank > h1.rank) return 2;
 
-    // TODO: Add high card tiebreakers here
-    return 0;  // tie
+    // Tie-breaker
+    if (h1.tiebreakers > h2.tiebreakers) return 1;
+    if (h2.tiebreakers > h1.tiebreakers) return 2;
+
+    return 0; // tie
 }
