@@ -27,6 +27,9 @@ vector<vector<Card>> getCombinations(const vector<Card>& cards);
 
 string evaluateTexasHoldEm(const vector<Card>& playerCards, const vector<Card>& communityCards);
 
+int getHandRank(const string& handName);
+
+
 void printCredits();
 
 #endif

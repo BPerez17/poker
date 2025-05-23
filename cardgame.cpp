@@ -7,6 +7,7 @@
 #include "card.h"
 #include "display.h"
 #include "player.h"
+#include "hand_evaluator.h"
 
 using namespace std;
 
@@ -163,6 +164,10 @@ int main() {
         //reveal cards
         
         tableDisplay(deck, communitycards, user, computer, totalpot, round);
+
+       
+
+        
 
         cout << "Hand: " << evaluateTexasHoldEm(user.getHand(), communitycards);
         
