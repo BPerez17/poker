@@ -41,13 +41,11 @@ int main() {
         cout << "Creating Deck..." << endl;
         vector<Card> deck = loadData("gameplay.txt");  // vector<Card> deck = loadData(helperFileName);
         int totalpot = 0;
-        int round = 1; // 5,22,25 all rounds work
+        int round = 1;
         vector<Card> communitycards; 
 
         //maybe add more players?
-        cout << "What is your name? ";
-        cin >> userinput;
-        Player user(userinput);
+        Player user("You");
         Player computer;
 
     
