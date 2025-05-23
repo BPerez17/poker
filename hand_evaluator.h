@@ -15,7 +15,6 @@ struct EvaluatedHand {
 
 int getCardRank(const string& value);
 
-
 EvaluatedHand evaluateHandDetailed(const vector<Card>& hand);
 
 vector<vector<Card>> getCombinations(const vector<Card>& cards);
