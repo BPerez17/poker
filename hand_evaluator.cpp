@@ -1,15 +1,11 @@
 #include "hand_evaluator.h"
 #include <algorithm>
+#include <string>
 #include <map>
 #include <set>
 #include <cmath>
 using namespace std;
 
-struct EvaluatedHand {
-    std::string name;          // e.g., "One Pair"
-    int rank;                  // 0 = High Card, 1 = One Pair, ..., 8 = Straight Flush
-    std::vector<int> tiebreakers;  // descending ranks for tie-breaking
-};
 
 enum HandRank {
     HIGH_CARD = 0,

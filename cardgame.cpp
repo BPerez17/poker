@@ -163,17 +163,17 @@ int main() {
         
         tableDisplay(deck, communitycards, user, computer, totalpot, round);
 
-        cout << "Hand: " << evaluateTexasHoldEm(user.getHand(), communitycards) << "\n";
+        // cout << "Hand: " << evaluateTexasHoldEm(user.getHand(), communitycards) << "\n";
 
-        int winner = compareHands(user.getHand(), computer.getHand(), communitycards);
-        cout << "Result:\n";
-        if (winner == 1) {
-            cout << "You win with a " << evaluateTexasHoldEm(user.getHand(), communitycards) << endl;
-        } else if (winner == 2) {
-            cout << "Computer wins with a " << evaluateTexasHoldEm(computer.getHand(), communitycards)  <<endl;
-        } else {
-            cout << "It's a tie!" << endl;
-        }
+        // int winner = compareHands(user.getHand(), computer.getHand(), communitycards);
+        // cout << "Result:\n";
+        // if (winner == 1) {
+        //     cout << "You win with a " << evaluateTexasHoldEm(user.getHand(), communitycards) << endl;
+        // } else if (winner == 2) {
+        //     cout << "Computer wins with a " << evaluateTexasHoldEm(computer.getHand(), communitycards)  <<endl;
+        // } else {
+        //     cout << "It's a tie!" << endl;
+        // }
 
         
         
