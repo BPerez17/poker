@@ -189,10 +189,6 @@ void tableDisplay(vector<Card>& deck, vector<Card>& communitycards, Player& user
 }
 
 
-
-
-
-
 void printCredits(){
     cout << " Welcome!" << endl;
     cout << " This is a poker-like Simulator," << endl;

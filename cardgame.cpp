@@ -165,11 +165,18 @@ int main() {
         
         tableDisplay(deck, communitycards, user, computer, totalpot, round);
 
-       
+        cout << "Hand: " << evaluateTexasHoldEm(user.getHand(), communitycards) << "\n";
 
-        
+        int winner = compareHands(user.getHand(), computer.getHand(), communitycards);
+        cout << "Result:\n";
+        if (winner == 1) {
+            cout << "Player 1 wins!" << endl;
+        } else if (winner == 2) {
+            cout << "Player 2 wins!" << endl;
+        } else {
+            cout << "It's a tie!" << endl;
+        }
 
-        cout << "Hand: " << evaluateTexasHoldEm(user.getHand(), communitycards);
         
         
 

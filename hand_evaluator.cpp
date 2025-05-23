@@ -3,6 +3,7 @@
 #include <map>
 #include <set>
 #include <cmath>
+using namespace std;
 
 
 int getCardRank(const string& value) {
@@ -133,6 +134,18 @@ string evaluateTexasHoldEm(const vector<Card>& playerCards, const vector<Card>& 
     return bestHand;
 }
 
+enum HandRank {
+    HIGH_CARD = 0,
+    ONE_PAIR,
+    TWO_PAIR,
+    THREE_OF_A_KIND,
+    STRAIGHT,
+    FLUSH,
+    FULL_HOUSE,
+    FOUR_OF_A_KIND,
+    STRAIGHT_FLUSH
+};
+
 int getHandRank(const string& handName) {
     if (handName == "High Card") return 0;
     if (handName == "One Pair") return 1;
@@ -144,4 +157,18 @@ int getHandRank(const string& handName) {
     if (handName == "Four of a Kind") return 7;
     if (handName == "Straight Flush") return 8;
     return -1; // Unknown hand
+}
+
+int compareHands(const vector<Card>& p1Hand, const vector<Card>& p2Hand, const vector<Card>& community) {
+    string best1 = evaluateTexasHoldEm(p1Hand, community);
+    string best2 = evaluateTexasHoldEm(p2Hand, community);
+
+    int rank1 = getHandRank(best1);
+    int rank2 = getHandRank(best2);
+
+    if (rank1 > rank2) return 1;
+    if (rank2 > rank1) return 2;
+
+    // TODO: Add high card tiebreakers here
+    return 0;  // tie
 }
