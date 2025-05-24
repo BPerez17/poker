@@ -75,7 +75,7 @@ int main() {
         totalpot += computer_bet;
         computer.removeCash(computer_bet);
 
-        //add probablity of folding depending on computers hand rank
+        // TODO maybe: add probablity of folding depending on computers hand rank
         cout << "\nMaking initial bets... Computer has bet $" << computer_bet;
         
         
