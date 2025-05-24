@@ -11,7 +11,6 @@ class Player{
         string name = "user";
         double cash = 5000;
         vector<Card> hand;
-        int handrank = 0;
         // int wins = 0;
     public:
         Player();
@@ -22,8 +21,7 @@ class Player{
         void removeCash(double bet);
         void setHand(vector<Card>& cards);
         vector<Card>& getHand();
-        int getHandRank();
-        void setHandRank(int rank);
+
         // void addWin();  NOTE: not implemented
         // int getWins(); NOTE: not implemented
 

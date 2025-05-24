@@ -5,13 +5,21 @@
 #include "card.h"
 using namespace std;
 
+
+struct EvaluatedHand {
+    string name;
+    int rank;
+    vector<int> tiebreakers;
+};
+
+
 int getCardRank(const string& value);
 
-string evaluateHand(const vector<Card>& hand);
+EvaluatedHand evaluateHandDetailed(const vector<Card>& hand);
 
 vector<vector<Card>> getCombinations(const vector<Card>& cards);
 
-string evaluateTexasHoldEm(const vector<Card>& playerCards, const vector<Card>& communityCards);
+EvaluatedHand evaluateTexasHoldEmDetailed(const vector<Card>& player, const vector<Card>& community);
 
 int getHandRank(const string& handName);
 

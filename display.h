@@ -16,19 +16,11 @@ void generateHand(vector<Card>& deck, Player& user);
 void tableDisplay(vector<Card>& deck, vector<Card>& communitycards, Player& user, Player& computer, int pot, int round);
 
 //helper functions
+void initialBets(Player& user, Player& computer, int& userbet, int& computer_bet, int& totalpot, int randNum);
+
+void getWinner(Player& user, Player& computer, vector<Card>& communitycards);
 
 void shuffle(vector<Card>& deck);
-
-int getCardRank(const string& value);
-
-string evaluateHand(const vector<Card>& hand);
-
-vector<vector<Card>> getCombinations(const vector<Card>& cards);
-
-string evaluateTexasHoldEm(const vector<Card>& playerCards, const vector<Card>& communityCards);
-
-int getHandRank(const string& handName);
-
 
 void printCredits();
 

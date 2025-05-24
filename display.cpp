@@ -7,6 +7,7 @@
 #include <set>
 #include <random>
 #include "display.h"
+#include "hand_evaluator.h"
 using namespace std;
 
 vector<Card> loadData(string filename){
@@ -187,6 +188,47 @@ void tableDisplay(vector<Card>& deck, vector<Card>& communitycards, Player& user
 
 
 }
+
+void initialBets(Player& user, Player& computer, int& userbet, int& computer_bet, int& totalpot, int randNum){
+        
+        computer_bet = randNum * 4;
+        userbet = computer_bet;
+        
+        //prevents bet from exceeding balance
+        if(computer_bet > computer.getCash()){
+            computer_bet = computer.getCash();
+        }
+
+        totalpot += computer_bet;
+
+
+        if(userbet > user.getCash()){
+            userbet = user.getCash();
+        }
+        
+        totalpot += userbet;
+
+        cout << "Computer has bet " << computer_bet << ". Mathing buy-in bet. " << user.getName() << " bet " << userbet << "\n\n";
+
+        computer.removeCash(computer_bet);
+        user.removeCash(userbet);
+
+}
+
+
+void getWinner(Player& user, Player& computer, vector<Card>& communitycards){
+        int winner = compareHands(user.getHand(), computer.getHand(), communitycards);
+        cout << "Result:\n";
+        if (winner == 1) {
+            cout << "You win with a " << evaluateTexasHoldEmDetailed(user.getHand(), communitycards).name << endl;
+        } else if (winner == 2) {
+            cout << "Computer wins with a " << evaluateTexasHoldEmDetailed(computer.getHand(), communitycards).name  <<endl;
+        } else {
+            cout << "It's a tie!" << endl;
+        }
+}
+
+
 
 
 void printCredits(){

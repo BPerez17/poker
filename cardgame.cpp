@@ -52,30 +52,14 @@ int main() {
         //buy-in bets to play the round
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<std::mt19937::result_type> distrib(1, 5);
-        int computer_bet = distrib(gen) * 4;
-        int userbet = computer_bet;
+        std::uniform_int_distribution<> distrib(1, 5);
+        int randNum = distrib(gen);        
+        int computer_bet;
+        int userbet;
+        initialBets(user, computer, userbet, computer_bet, totalpot, randNum);
         
-        //prevents bet from exceeding balance
-        if(computer_bet > computer.getCash()){
-            computer_bet = computer.getCash();
-        }
-
-        totalpot += computer_bet;
-
-
-        if(userbet > user.getCash()){
-            userbet = user.getCash();
-        }
-        
-        totalpot += userbet;
-
-        cout << "Computer has bet " << computer_bet << ". Mathing buy-in bet. " << user.getName() << " bets " << userbet << "\n\n";
-
-        computer.removeCash(computer_bet);
-        user.removeCash(userbet);
-        
-        
+     
+       
         //dealing cards and creating hands
         generateHand(deck, user);
         generateHand(deck, computer);
@@ -163,19 +147,7 @@ int main() {
         
         tableDisplay(deck, communitycards, user, computer, totalpot, round);
 
-        cout << "Hand: " << evaluateTexasHoldEm(user.getHand(), communitycards) << "\n";
-
-        int winner = compareHands(user.getHand(), computer.getHand(), communitycards);
-        cout << "Result:\n";
-        if (winner == 1) {
-            cout << "You win with a " << evaluateTexasHoldEm(user.getHand(), communitycards) << endl;
-        } else if (winner == 2) {
-            cout << "Computer wins with a " << evaluateTexasHoldEm(computer.getHand(), communitycards)  <<endl;
-        } else {
-            cout << "It's a tie!" << endl;
-        }
-
-        
+        getWinner(user,computer,communitycards);
         
 
         // After someone/computer wins, the prompt to play again will appear
@@ -192,3 +164,5 @@ int main() {
     cout << "Thanks for visiting, until next time ...";
 
 }
+
+
