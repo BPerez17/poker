@@ -37,13 +37,6 @@ vector<Card>& Player::getHand(){
     return this->hand;
 }
 
-int Player::getHandRank(){
-    return this->handrank;
-}
-
-void Player::setHandRank(int rank){
-    this->handrank = rank;
-}
 
 
 

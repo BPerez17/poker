@@ -131,7 +131,6 @@ EvaluatedHand evaluateTexasHoldEmDetailed(const vector<Card>& player, const vect
 }
 
 
-
 int getHandRank(const string& handName) {
     if (handName == "High Card") return 0;
     if (handName == "One Pair") return 1;

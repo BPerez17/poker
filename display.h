@@ -19,17 +19,6 @@ void tableDisplay(vector<Card>& deck, vector<Card>& communitycards, Player& user
 
 void shuffle(vector<Card>& deck);
 
-int getCardRank(const string& value);
-
-string evaluateHand(const vector<Card>& hand);
-
-vector<vector<Card>> getCombinations(const vector<Card>& cards);
-
-string evaluateTexasHoldEm(const vector<Card>& playerCards, const vector<Card>& communityCards);
-
-int getHandRank(const string& handName);
-
-
 void printCredits();
 
 #endif
