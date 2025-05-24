@@ -20,6 +20,7 @@ int main() {
 
     printCredits();
 
+    // testing file reading
     // ifstream fileStream;
     // while (!fileStream.is_open()) {
     //     cout << "Enter filename: ";
@@ -44,12 +45,12 @@ int main() {
         int round = 1;
         vector<Card> communitycards; 
 
-        //maybe add more players?
+        //Players: you and computer
         Player user("You");
         Player computer;
 
     
-        //buy-in bets to play the round
+        //random number generator for the computer to bet
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> distrib(1, 5);
@@ -60,14 +61,13 @@ int main() {
         
      
        
-        //dealing cards and creating hands
+        //dealing cards and creating hands to be displayed on the GUI
         generateHand(deck, user);
         generateHand(deck, computer);
 
         tableDisplay(deck, communitycards, user, computer, totalpot, round);
         
         //second bets and playing rounds
-        // def function to calculate betting
         computer_bet = distrib(gen) * 70;
         if(computer_bet > computer.getCash()){
             computer_bet = computer.getCash();
@@ -75,10 +75,11 @@ int main() {
         totalpot += computer_bet;
         computer.removeCash(computer_bet);
 
-        // TODO maybe: add probablity of folding depending on computers hand rank
+
         cout << "\nMaking initial bets... Computer has bet $" << computer_bet;
         
-        
+        //this is the loop that helps the user decide their move.
+        // The game ends after all 5 cards are dealt and the winner is decided
         while(round < 4){
             cout << "\nWhat is your next move? (Enter a letter and press enter to continue.)" << endl;
             cout << "C. Check" << endl;
@@ -87,10 +88,13 @@ int main() {
 
             cin >> userinput;
             if(userinput.find('c') != string::npos || userinput.find('C') != string::npos ){
-                //continue without betting
+                //the user deciced to check
                 round += 1;
             }
             else if(userinput.find('r') != string::npos || userinput.find('R') != string::npos){
+                // the user deciced to raise
+                // user cannot bet if their balance is empty.
+                // user is reprompted to choose a different option
                 if(user.getCash() == 0) { 
                     cout << "\nBalance is empty. Try another option: "; 
                 }
@@ -117,7 +121,9 @@ int main() {
                     
                 }
             }
+            
             else if(userinput.find('f') != string::npos || userinput.find('F') != string::npos){
+                // the user has folded, making the computer win
                 cout << "You folded. Computer wins!\n\n";
                 computer.addCash(totalpot);
                 totalpot = 0;
@@ -125,7 +131,7 @@ int main() {
                 cout << "Computer score: $" << computer.getCash() << endl;
                 cout << user.getName() << "'s score: $" << user.getCash() << endl;
                 round = 4;
-                //add wins to computer ?
+                
                 
             }
 
@@ -137,21 +143,21 @@ int main() {
         }
         round = 4;
 
+        // the community cards are being added every other card since there is no "burning" of the cards.
+        // this creates the same effect
         communitycards.push_back(deck.at(0));
         communitycards.push_back(deck.at(2));
         communitycards.push_back(deck.at(4));
         communitycards.push_back(deck.at(6));
         communitycards.push_back(deck.at(8));
         
-        //reveal cards
-        
+        //reveal cards after all cards have been dealt
         tableDisplay(deck, communitycards, user, computer, totalpot, round);
 
         getWinner(user,computer,communitycards);
         
 
-        // After someone/computer wins, the prompt to play again will appear
-        
+        // after someone/computer wins, the prompt to play again will appear
         cout << endl;
         cout << " Want to play again?" << endl;
         cout << " (Enter 'p', or 'q' to quit): ";

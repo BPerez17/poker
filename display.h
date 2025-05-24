@@ -11,7 +11,6 @@ vector<Card> loadData(string filename);
 
 void generateHand(vector<Card>& deck, Player& user);
 
-//plan to add more players into display function with a vector of players
 
 void tableDisplay(vector<Card>& deck, vector<Card>& communitycards, Player& user, Player& computer, int pot, int round);
 

@@ -67,7 +67,7 @@ EvaluatedHand evaluateHandDetailed(const vector<Card>& hand) {
     if (isStraight && isFlush)
         return {"Straight Flush", 8, {ranks[0]}};
 
-    // Collect groups by frequency
+    // collect groups by frequency
     vector<pair<int, int>> groups;
     for (auto& [rank, count] : rankCount)
         groups.push_back({count, rank});  // {freq, rank}
