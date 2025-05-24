@@ -1,11 +1,11 @@
-Use the following command to run the game:
+Thank you for checking out my project.
 
+This is a project that utilizes course material from Texas A&M's Computer Science course: Data Structures and Algorithms
+to showcase what I have learned.
 
-	g++ cardgame.cpp card.cpp display.cpp player.cpp -o cardgame.exe
+Made by Brandon Perez. 
 
-
-From here you will input certain keys on the display menu
-
+I hope you enjoy playing!
 
 
 
