@@ -2,9 +2,9 @@ Thank you for checking out my project.
 
 ** STEPS TO PLAY GAME **
 
-1. Download files and open  VSCode
-2. Open folder and choose the folder that has all the files
-3. Open a new terminal and type "./cardgame.exe", which will open the game in the console
+1. Download files and open VSCode.
+2. In VSCode, select File >> Open Folder then choose the folder that has all the files you downloaded from step 1.
+3. Open a new terminal and type "./cardgame.exe", which will open the game in the console.
 
 
 Description:
