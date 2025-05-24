@@ -10,7 +10,7 @@
                 "display.cpp",
                 "player.cpp",
                 "hand_evaluator.cpp",
-                "-std=c++11",
+                "-std=c++17",
                 "-g",
                 "-o",
                 "cardgame.exe"
