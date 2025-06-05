@@ -4,7 +4,26 @@ Thank you for checking out my project.
 
 1. Download files and open VSCode.
 2. In VSCode, select File >> Open Folder then choose the folder that has all the files you downloaded from step 1.
-3. Open a new terminal and type "./cardgame.exe", which will open the game in the console.
+3. Open a new terminal and type "./cardgame.exe" (for MacOS, dont type '.exe' at the end) which will open the game in the console.
+
+
+**** TROUBLESHOOTING ************************************************************************************
+
+If Step 3 does not work, in the terminal copy and paste:
+
+    g++ cardgame.cpp card.cpp player.cpp display.cpp hand_evaluator.cpp -std=c++17 -Wall -Wextra -g -o cardgame
+
+and run it. That should build the game. Then depending on your system (either 1 or 2 should work):
+
+1) For MacOS, in the terminal type     ./cardgame
+
+
+2) On Git Bash type:     ./cardgame.exe
+
+
+and then run again. That should execute the game to function.
+
+**********************************************************************************************************
 
 
 Description:
